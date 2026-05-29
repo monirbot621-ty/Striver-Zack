@@ -1,10 +1,13 @@
 // scripts/boss.js
 
 module.exports = {
-name: "boss",
+  name: "boss",
+  aliases: ["owner", "admin"],
 
-run({ api, event }) {
-api.sendMessage(
+  run({ api, event }) {
+
+    api.sendMessage(
+
 `╭━━━〔 👑 𝘽𝙤𝙨𝙨 𝙄𝙣𝙛𝙤 👑 〕━━━⬣
 
 🌸 Name : Striver Zack (Onto) 🙂✨
@@ -19,11 +22,13 @@ api.sendMessage(
 🤲 সবাই আমার boss এর জন্য
 দোয়া করবেন 💖
 
-🔗 Boss :
+🔗 Facebook :
 https://www.facebook.com/profile.php?id=61572053975146
 
 ╰━━━━━━━━━━━━━━⬣`,
-event.threadID
-);
-}
+
+      event.threadID
+    );
+
+  }
 };
