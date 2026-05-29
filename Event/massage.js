@@ -27,7 +27,38 @@ module.exports = async ({
     return;
   }
 
-  // Ignore non-command messages
+  // =========================
+  // UNSEND CACHE SYSTEM ADD
+  // =========================
+  if (event.body) {
+
+    const cachePath = path.join(
+      __dirname,
+      "../database/unsendCache.json"
+    );
+
+    let cache = {};
+
+    if (fs.existsSync(cachePath)) {
+      cache = JSON.parse(
+        fs.readFileSync(cachePath)
+      );
+    }
+
+    cache[event.messageID] = {
+      body: event.body,
+      senderID: event.senderID,
+      senderName: event.senderName || "User",
+      time: Date.now()
+    };
+
+    fs.writeFileSync(
+      cachePath,
+      JSON.stringify(cache, null, 2)
+    );
+  }
+
+  // Prefix Check
   if (!body.startsWith(config.prefix)) return;
 
   const args = body
@@ -60,8 +91,10 @@ module.exports = async ({
 
     const match =
       command.name === commandName ||
-      (command.aliases &&
-        command.aliases.includes(commandName));
+      (
+        command.aliases &&
+        command.aliases.includes(commandName)
+      );
 
     if (!match) continue;
 
@@ -84,7 +117,6 @@ module.exports = async ({
 
     }
 
-    // Run command
     command.run({
       api,
       event,
