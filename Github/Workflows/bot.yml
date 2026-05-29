@@ -2,5 +2,5 @@ git init
 git add .
 git commit -m "Nia bot initial setup"
 git branch -M main
-git remote add origin YOUR_REPO_LINK
+git remote add origin https://github.com/monirbot621-ty/Striver-Zack.git
 git push -u origin main
