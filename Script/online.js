@@ -3,33 +3,32 @@
 const fs = require("fs");
 
 module.exports = {
-name: "online",
-admin: true,
+  name: "online",
+  admin: true,
 
-run({ api, event, statePath, config }) {
+  run({ api, event, statePath }) {
 
-if (event.senderID !== config.adminUID) {
-  return api.sendMessage(
+    let state = {};
 
-`╭━━━〔 🚫 𝘼𝙘𝙘𝙚𝙨𝙨 𝘿𝙚𝙣𝙞𝙚𝙙 🚫 〕━━━⬣
+    // Load previous state
+    if (fs.existsSync(statePath)) {
 
-⚠️ এই command শুধু boss ব্যবহার করতে পারবে 🙂🖤
+      state = JSON.parse(
+        fs.readFileSync(statePath)
+      );
 
-╰━━━━━━━━━━━━━━⬣`,
-event.threadID
-);
-}
+    }
 
-const state = {
-  botOffline: false
-};
+    // Disable offline mode
+    state.botOffline = false;
 
-fs.writeFileSync(
-  statePath,
-  JSON.stringify(state, null, 2)
-);
+    // Save state
+    fs.writeFileSync(
+      statePath,
+      JSON.stringify(state, null, 2)
+    );
 
-api.sendMessage(
+    api.sendMessage(
 
 `╭━━━〔 🟢 𝙉𝙞𝙖 𝙊𝙣𝙡𝙞𝙣𝙚 🟢 〕━━━⬣
 
@@ -38,7 +37,9 @@ api.sendMessage(
 ⚡ এখন আবার আপনাদের সাহায্য করবো 🐸
 
 ╰━━━━━━━━━━━━━━⬣`,
-event.threadID
-);
-}
+
+      event.threadID
+    );
+
+  }
 };
